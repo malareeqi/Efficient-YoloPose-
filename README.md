@@ -21,7 +21,7 @@
 Efficient YoloPose is a deep learning-based architecture designed to balance computational efficiency and accuracy for real-time multi-person pose estimation. This repository contains the implementation of Efficient YoloPose, which improves upon YOLOv8-Pose by incorporating advanced lightweight techniques, reducing computational demands while maintaining high performance, particularly for resource-constrained devices.
 </div>  
 <div align="center">
-  <P><font size=1>size=1</font>
+  <P><font size=4>size=4</font>
   <font size=4>size=4</font>
   Overview</div>
 <div align="justify">
