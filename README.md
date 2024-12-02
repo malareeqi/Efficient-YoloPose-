@@ -20,7 +20,10 @@
 <div align="justify">
 Efficient YoloPose is a deep learning-based architecture designed to balance computational efficiency and accuracy for real-time multi-person pose estimation. This repository contains the implementation of Efficient YoloPose, which improves upon YOLOv8-Pose by incorporating advanced lightweight techniques, reducing computational demands while maintaining high performance, particularly for resource-constrained devices.
 </div>  
-<div align="center">Overview</div>
+<div align="center">
+  <P><font size=1>size=1</font>
+  <font size=4>size=4</font>
+  Overview</div>
 <div align="justify">
 Human pose estimation (HPE) is crucial for various real-time applications, but achieving high accuracy with low computational overhead is a challenge, especially on resource-constrained devices. Efficient YoloPose addresses this challenge by optimizing YOLOv8-Pose with lightweight components to achieve both efficiency and accuracy.
 Efficient design: Utilizes Depthwise Convolution, Ghost Convolution, and C3Ghost to reduce model size and complexity.
