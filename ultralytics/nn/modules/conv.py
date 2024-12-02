@@ -1,16 +1,51 @@
 # Ultralytics YOLO 🚀, AGPL-3.0 license
-"""
-Convolution modules
-"""
+"""Convolution modules."""
 
 import math
 
 import numpy as np
 import torch
 import torch.nn as nn
+from torch.nn import init
+import torch.nn.functional as F
+import json
+import math
+import platform
+import warnings
+from collections import OrderedDict, namedtuple
+from copy import copy
+from pathlib import Path
 
-__all__ = ('Conv', 'LightConv', 'DWConv', 'DWConvTranspose2d', 'ConvTranspose', 'Focus', 'GhostConv',
-           'ChannelAttention', 'SpatialAttention', 'CBAM', 'Concat', 'RepConv')
+import cv2
+import numpy as np
+import pandas as pd
+import requests
+import torch
+import torch.nn as nn
+import yaml
+import torch.nn.functional as F
+from PIL import Image
+from torch.cuda import amp
+
+
+
+__all__ = (
+    "Conv",
+    "Conv2",
+    "LightConv",
+    "DWConv",
+    "DWConvTranspose2d",
+    "ConvTranspose",
+    "Focus",
+    "GhostConv",
+    "ChannelAttention",
+    "SpatialAttention",
+    "CBAM",
+    "Concat",
+    "RepConv",
+    "SEAttention",
+    "CARAFE","GAM_Attention","CoordAtt"
+)
 
 
 def autopad(k, p=None, d=1):  # kernel, padding, dilation
@@ -24,6 +59,7 @@ def autopad(k, p=None, d=1):  # kernel, padding, dilation
 
 class Conv(nn.Module):
     """Standard convolution with args(ch_in, ch_out, kernel, stride, padding, groups, dilation, activation)."""
+
     default_act = nn.SiLU()  # default activation
 
     def __init__(self, c1, c2, k=1, s=1, p=None, g=1, d=1, act=True):
@@ -54,17 +90,24 @@ class Conv2(Conv):
         """Apply convolution, batch normalization and activation to input tensor."""
         return self.act(self.bn(self.conv(x) + self.cv2(x)))
 
+    def forward_fuse(self, x):
+        """Apply fused convolution, batch normalization and activation to input tensor."""
+        return self.act(self.bn(self.conv(x)))
+
     def fuse_convs(self):
         """Fuse parallel convolutions."""
         w = torch.zeros_like(self.conv.weight.data)
         i = [x // 2 for x in w.shape[2:]]
-        w[:, :, i[0]:i[0] + 1, i[1]:i[1] + 1] = self.cv2.weight.data.clone()
+        w[:, :, i[0] : i[0] + 1, i[1] : i[1] + 1] = self.cv2.weight.data.clone()
         self.conv.weight.data += w
-        self.__delattr__('cv2')
+        self.__delattr__("cv2")
+        self.forward = self.forward_fuse
 
 
 class LightConv(nn.Module):
-    """Light convolution with args(ch_in, ch_out, kernel).
+    """
+    Light convolution with args(ch_in, ch_out, kernel).
+
     https://github.com/PaddlePaddle/PaddleDetection/blob/develop/ppdet/modeling/backbones/hgnet_v2.py
     """
 
@@ -83,6 +126,7 @@ class DWConv(Conv):
     """Depth-wise convolution."""
 
     def __init__(self, c1, c2, k=1, s=1, d=1, act=True):  # ch_in, ch_out, kernel, stride, dilation, activation
+        """Initialize Depth-wise convolution with given parameters."""
         super().__init__(c1, c2, k, s, g=math.gcd(c1, c2), d=d, act=act)
 
 
@@ -90,11 +134,13 @@ class DWConvTranspose2d(nn.ConvTranspose2d):
     """Depth-wise transpose convolution."""
 
     def __init__(self, c1, c2, k=1, s=1, p1=0, p2=0):  # ch_in, ch_out, kernel, stride, padding, padding_out
+        """Initialize DWConvTranspose2d class with given parameters."""
         super().__init__(c1, c2, k, s, p1, p2, groups=math.gcd(c1, c2))
 
 
 class ConvTranspose(nn.Module):
     """Convolution transpose 2d layer."""
+
     default_act = nn.SiLU()  # default activation
 
     def __init__(self, c1, c2, k=2, s=2, p=0, bn=True, act=True):
@@ -116,12 +162,18 @@ class ConvTranspose(nn.Module):
 class Focus(nn.Module):
     """Focus wh information into c-space."""
 
-    def __init__(self, c1, c2, k=1, s=1, p=None, g=1, act=True):  # ch_in, ch_out, kernel, stride, padding, groups
+    def __init__(self, c1, c2, k=1, s=1, p=None, g=1, act=True):
+        """Initializes Focus object with user defined channel, convolution, padding, group and activation values."""
         super().__init__()
         self.conv = Conv(c1 * 4, c2, k, s, p, g, act=act)
         # self.contract = Contract(gain=2)
 
-    def forward(self, x):  # x(b,c,w,h) -> y(b,4c,w/2,h/2)
+    def forward(self, x):
+        """
+        Applies convolution to concatenated tensor and returns the output.
+
+        Input shape is (b,c,w,h) and output shape is (b,4c,w/2,h/2).
+        """
         return self.conv(torch.cat((x[..., ::2, ::2], x[..., 1::2, ::2], x[..., ::2, 1::2], x[..., 1::2, 1::2]), 1))
         # return self.conv(self.contract(x))
 
@@ -129,7 +181,10 @@ class Focus(nn.Module):
 class GhostConv(nn.Module):
     """Ghost Convolution https://github.com/huawei-noah/ghostnet."""
 
-    def __init__(self, c1, c2, k=1, s=1, g=1, act=True):  # ch_in, ch_out, kernel, stride, groups
+    def __init__(self, c1, c2, k=1, s=1, g=1, act=True):
+        """Initializes the GhostConv object with input channels, output channels, kernel size, stride, groups and
+        activation.
+        """
         super().__init__()
         c_ = c2 // 2  # hidden channels
         self.cv1 = Conv(c1, c_, k, s, None, g, act=act)
@@ -142,12 +197,17 @@ class GhostConv(nn.Module):
 
 
 class RepConv(nn.Module):
-    """RepConv is a basic rep-style block, including training and deploy status
-    This code is based on https://github.com/DingXiaoH/RepVGG/blob/main/repvgg.py
     """
+    RepConv is a basic rep-style block, including training and deploy status.
+
+    This module is used in RT-DETR.
+    Based on https://github.com/DingXiaoH/RepVGG/blob/main/repvgg.py
+    """
+
     default_act = nn.SiLU()  # default activation
 
     def __init__(self, c1, c2, k=3, s=1, p=1, g=1, d=1, act=True, bn=False, deploy=False):
+        """Initializes Light Convolution layer with inputs, outputs & optional activation function."""
         super().__init__()
         assert k == 3 and p == 1
         self.g = g
@@ -160,36 +220,30 @@ class RepConv(nn.Module):
         self.conv2 = Conv(c1, c2, 1, s, p=(p - k // 2), g=g, act=False)
 
     def forward_fuse(self, x):
-        """Forward process"""
+        """Forward process."""
         return self.act(self.conv(x))
 
     def forward(self, x):
-        """Forward process"""
+        """Forward process."""
         id_out = 0 if self.bn is None else self.bn(x)
         return self.act(self.conv1(x) + self.conv2(x) + id_out)
 
     def get_equivalent_kernel_bias(self):
+        """Returns equivalent kernel and bias by adding 3x3 kernel, 1x1 kernel and identity kernel with their biases."""
         kernel3x3, bias3x3 = self._fuse_bn_tensor(self.conv1)
         kernel1x1, bias1x1 = self._fuse_bn_tensor(self.conv2)
         kernelid, biasid = self._fuse_bn_tensor(self.bn)
         return kernel3x3 + self._pad_1x1_to_3x3_tensor(kernel1x1) + kernelid, bias3x3 + bias1x1 + biasid
 
-    def _avg_to_3x3_tensor(self, avgp):
-        channels = self.c1
-        groups = self.g
-        kernel_size = avgp.kernel_size
-        input_dim = channels // groups
-        k = torch.zeros((channels, input_dim, kernel_size, kernel_size))
-        k[np.arange(channels), np.tile(np.arange(input_dim), groups), :, :] = 1.0 / kernel_size ** 2
-        return k
-
     def _pad_1x1_to_3x3_tensor(self, kernel1x1):
+        """Pads a 1x1 tensor to a 3x3 tensor."""
         if kernel1x1 is None:
             return 0
         else:
             return torch.nn.functional.pad(kernel1x1, [1, 1, 1, 1])
 
     def _fuse_bn_tensor(self, branch):
+        """Generates appropriate kernels and biases for convolution by fusing branches of the neural network."""
         if branch is None:
             return 0, 0
         if isinstance(branch, Conv):
@@ -200,7 +254,7 @@ class RepConv(nn.Module):
             beta = branch.bn.bias
             eps = branch.bn.eps
         elif isinstance(branch, nn.BatchNorm2d):
-            if not hasattr(self, 'id_tensor'):
+            if not hasattr(self, "id_tensor"):
                 input_dim = self.c1 // self.g
                 kernel_value = np.zeros((self.c1, input_dim, 3, 3), dtype=np.float32)
                 for i in range(self.c1):
@@ -217,41 +271,46 @@ class RepConv(nn.Module):
         return kernel * t, beta - running_mean * gamma / std
 
     def fuse_convs(self):
-        if hasattr(self, 'conv'):
+        """Combines two convolution layers into a single layer and removes unused attributes from the class."""
+        if hasattr(self, "conv"):
             return
         kernel, bias = self.get_equivalent_kernel_bias()
-        self.conv = nn.Conv2d(in_channels=self.conv1.conv.in_channels,
-                              out_channels=self.conv1.conv.out_channels,
-                              kernel_size=self.conv1.conv.kernel_size,
-                              stride=self.conv1.conv.stride,
-                              padding=self.conv1.conv.padding,
-                              dilation=self.conv1.conv.dilation,
-                              groups=self.conv1.conv.groups,
-                              bias=True).requires_grad_(False)
+        self.conv = nn.Conv2d(
+            in_channels=self.conv1.conv.in_channels,
+            out_channels=self.conv1.conv.out_channels,
+            kernel_size=self.conv1.conv.kernel_size,
+            stride=self.conv1.conv.stride,
+            padding=self.conv1.conv.padding,
+            dilation=self.conv1.conv.dilation,
+            groups=self.conv1.conv.groups,
+            bias=True,
+        ).requires_grad_(False)
         self.conv.weight.data = kernel
         self.conv.bias.data = bias
         for para in self.parameters():
             para.detach_()
-        self.__delattr__('conv1')
-        self.__delattr__('conv2')
-        if hasattr(self, 'nm'):
-            self.__delattr__('nm')
-        if hasattr(self, 'bn'):
-            self.__delattr__('bn')
-        if hasattr(self, 'id_tensor'):
-            self.__delattr__('id_tensor')
+        self.__delattr__("conv1")
+        self.__delattr__("conv2")
+        if hasattr(self, "nm"):
+            self.__delattr__("nm")
+        if hasattr(self, "bn"):
+            self.__delattr__("bn")
+        if hasattr(self, "id_tensor"):
+            self.__delattr__("id_tensor")
 
 
 class ChannelAttention(nn.Module):
     """Channel-attention module https://github.com/open-mmlab/mmdetection/tree/v3.0.0rc1/configs/rtmdet."""
 
     def __init__(self, channels: int) -> None:
+        """Initializes the class and sets the basic configurations and instance variables required."""
         super().__init__()
         self.pool = nn.AdaptiveAvgPool2d(1)
         self.fc = nn.Conv2d(channels, channels, 1, 1, 0, bias=True)
         self.act = nn.Sigmoid()
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
+        """Applies forward pass using activation on convolutions of the input, optionally using batch normalization."""
         return x * self.act(self.fc(self.pool(x)))
 
 
@@ -261,7 +320,7 @@ class SpatialAttention(nn.Module):
     def __init__(self, kernel_size=7):
         """Initialize Spatial-attention module with kernel size argument."""
         super().__init__()
-        assert kernel_size in (3, 7), 'kernel size must be 3 or 7'
+        assert kernel_size in (3, 7), "kernel size must be 3 or 7"
         padding = 3 if kernel_size == 7 else 1
         self.cv1 = nn.Conv2d(2, 1, kernel_size, padding=padding, bias=False)
         self.act = nn.Sigmoid()
@@ -274,7 +333,8 @@ class SpatialAttention(nn.Module):
 class CBAM(nn.Module):
     """Convolutional Block Attention Module."""
 
-    def __init__(self, c1, kernel_size=7):  # ch_in, kernels
+    def __init__(self, c1, kernel_size=7):
+        """Initialize CBAM with given input channel (c1) and kernel size."""
         super().__init__()
         self.channel_attention = ChannelAttention(c1)
         self.spatial_attention = SpatialAttention(kernel_size)
@@ -295,3 +355,181 @@ class Concat(nn.Module):
     def forward(self, x):
         """Forward pass for the YOLOv8 mask Proto module."""
         return torch.cat(x, self.d)
+
+
+class SEAttention(nn.Module):
+
+    def __init__(self, channel=512,reduction=16):
+        super().__init__()
+        self.avg_pool = nn.AdaptiveAvgPool2d(1)
+        self.fc = nn.Sequential(
+            nn.Linear(channel, channel // reduction, bias=False),
+            nn.ReLU(inplace=True),
+            nn.Linear(channel // reduction, channel, bias=False),
+            nn.Sigmoid()
+        )
+
+
+    def init_weights(self):
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                init.kaiming_normal_(m.weight, mode='fan_out')
+                if m.bias is not None:
+                    init.constant_(m.bias, 0)
+            elif isinstance(m, nn.BatchNorm2d):
+                init.constant_(m.weight, 1)
+                init.constant_(m.bias, 0)
+            elif isinstance(m, nn.Linear):
+                init.normal_(m.weight, std=0.001)
+                if m.bias is not None:
+                    init.constant_(m.bias, 0)
+
+    def forward(self, x):
+        b, c, _, _ = x.size()
+        y = self.avg_pool(x).view(b, c)
+        y = self.fc(y).view(b, c, 1, 1)
+        return x * y.expand_as(x)
+###################### SENet     ####     end   by  AI&CV  ###############################
+
+#___________________________________________________________#
+class CARAFE(nn.Module):     
+    #CARAFE: Content-Aware ReAssembly of FEatures       https://arxiv.org/pdf/1905.02188.pdf
+    def __init__(self, c1, c2, kernel_size=3, up_factor=2):
+        super(CARAFE, self).__init__()
+        self.kernel_size = kernel_size
+        self.up_factor = up_factor
+        self.down = nn.Conv2d(c1, c1 // 4, 1)
+        self.encoder = nn.Conv2d(c1 // 4, self.up_factor ** 2 * self.kernel_size ** 2,
+                                 self.kernel_size, 1, self.kernel_size // 2)
+        self.out = nn.Conv2d(c1, c2, 1)
+
+    def forward(self, x):
+        N, C, H, W = x.size()
+        # N,C,H,W -> N,C,delta*H,delta*W
+        # kernel prediction module
+        kernel_tensor = self.down(x)  # (N, Cm, H, W)
+        kernel_tensor = self.encoder(kernel_tensor)  # (N, S^2 * Kup^2, H, W)
+        kernel_tensor = F.pixel_shuffle(kernel_tensor, self.up_factor)  # (N, S^2 * Kup^2, H, W)->(N, Kup^2, S*H, S*W)
+        kernel_tensor = F.softmax(kernel_tensor, dim=1)  # (N, Kup^2, S*H, S*W)
+        kernel_tensor = kernel_tensor.unfold(2, self.up_factor, step=self.up_factor) # (N, Kup^2, H, W*S, S)
+        kernel_tensor = kernel_tensor.unfold(3, self.up_factor, step=self.up_factor) # (N, Kup^2, H, W, S, S)
+        kernel_tensor = kernel_tensor.reshape(N, self.kernel_size ** 2, H, W, self.up_factor ** 2) # (N, Kup^2, H, W, S^2)
+        kernel_tensor = kernel_tensor.permute(0, 2, 3, 1, 4)  # (N, H, W, Kup^2, S^2)
+
+        # content-aware reassembly module
+        # tensor.unfold: dim, size, step
+        x = F.pad(x, pad=(self.kernel_size // 2, self.kernel_size // 2,
+                                          self.kernel_size // 2, self.kernel_size // 2),
+                          mode='constant', value=0) # (N, C, H+Kup//2+Kup//2, W+Kup//2+Kup//2)
+        x = x.unfold(2, self.kernel_size, step=1) # (N, C, H, W+Kup//2+Kup//2, Kup)
+        x = x.unfold(3, self.kernel_size, step=1) # (N, C, H, W, Kup, Kup)
+        x = x.reshape(N, C, H, W, -1) # (N, C, H, W, Kup^2)
+        x = x.permute(0, 2, 3, 1, 4)  # (N, H, W, C, Kup^2)
+
+        out_tensor = torch.matmul(x, kernel_tensor)  # (N, H, W, C, S^2)
+        out_tensor = out_tensor.reshape(N, H, W, -1)
+        out_tensor = out_tensor.permute(0, 3, 1, 2)
+        out_tensor = F.pixel_shuffle(out_tensor, self.up_factor)
+        out_tensor = self.out(out_tensor)
+        #print("up shape:",out_tensor.shape)
+        return out_tensor
+#____________________________________________________________________________#
+def channel_shuffle(x, groups=2):   ##shuffle channel 
+        #RESHAPE----->transpose------->Flatten 
+        B, C, H, W = x.size()
+        out = x.view(B, groups, C // groups, H, W).permute(0, 2, 1, 3, 4).contiguous()
+        out=out.view(B, C, H, W) 
+        return out
+
+class GAM_Attention(nn.Module):
+   #https://paperswithcode.com/paper/global-attention-mechanism-retain-information
+    def __init__(self, c1, c2, group=True,rate=4):
+        super(GAM_Attention, self).__init__()
+        
+        self.channel_attention = nn.Sequential(
+            nn.Linear(c1, int(c1 / rate)),
+            nn.ReLU(inplace=True),
+            nn.Linear(int(c1 / rate), c1)
+        )
+        
+        
+        self.spatial_attention = nn.Sequential(
+            
+            nn.Conv2d(c1, c1//rate, kernel_size=7, padding=3,groups=rate)if group else nn.Conv2d(c1, int(c1 / rate), kernel_size=7, padding=3), 
+            nn.BatchNorm2d(int(c1 /rate)),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(c1//rate, c2, kernel_size=7, padding=3,groups=rate) if group else nn.Conv2d(int(c1 / rate), c2, kernel_size=7, padding=3), 
+            nn.BatchNorm2d(c2)
+        )
+
+    def forward(self, x):
+        
+        b, c, h, w = x.shape
+        x_permute = x.permute(0, 2, 3, 1).view(b, -1, c)
+        x_att_permute = self.channel_attention(x_permute).view(b, h, w, c)
+        x_channel_att = x_att_permute.permute(0, 3, 1, 2)
+       # x_channel_att=channel_shuffle(x_channel_att,4) #last shuffle 
+        x = x * x_channel_att
+ 
+        x_spatial_att = self.spatial_attention(x).sigmoid()
+        x_spatial_att=channel_shuffle(x_spatial_att,4) #last shuffle 
+        #print(x.shape)
+        #print(x_spatial_att.shape)
+        out = x * x_spatial_att
+        #out=channel_shuffle(out,4) #last shuffle 
+        return out      
+    
+    #-----------------------------------------------------------------------
+class h_sigmoid(nn.Module):
+    def __init__(self, inplace=True):
+        super(h_sigmoid, self).__init__()
+        self.relu = nn.ReLU6(inplace=inplace)
+
+    def forward(self, x):
+        return self.relu(x + 3) / 6
+
+class h_swish(nn.Module):
+    def __init__(self, inplace=True):
+        super(h_swish, self).__init__()
+        self.sigmoid = h_sigmoid(inplace=inplace)
+
+    def forward(self, x):
+        return x * self.sigmoid(x)
+        
+class CoordAtt(nn.Module):
+    def __init__(self, inp, oup, reduction=32):
+        super(CoordAtt, self).__init__()
+
+        mip = max(8, inp // reduction)
+
+        self.conv1 = nn.Conv2d(inp, mip, kernel_size=1, stride=1, padding=0)
+        self.bn1 = nn.BatchNorm2d(mip)
+        self.act = h_swish()
+        
+        self.conv_h = nn.Conv2d(mip, oup, kernel_size=1, stride=1, padding=0)
+        self.conv_w = nn.Conv2d(mip, oup, kernel_size=1, stride=1, padding=0)
+        
+
+    def forward(self, x):
+        identity = x
+        
+        n,c,h,w = x.size()
+        pool_h = nn.AdaptiveAvgPool2d((h, 1))
+        pool_w = nn.AdaptiveAvgPool2d((1, w))
+        x_h = pool_h(x)
+        x_w = pool_w(x).permute(0, 1, 3, 2)
+
+        y = torch.cat([x_h, x_w], dim=2)
+        y = self.conv1(y)
+        y = self.bn1(y)
+        y = self.act(y) 
+        
+        x_h, x_w = torch.split(y, [h, w], dim=2)
+        x_w = x_w.permute(0, 1, 3, 2)
+
+        a_h = self.conv_h(x_h).sigmoid()
+        a_w = self.conv_w(x_w).sigmoid()
+
+        out = identity * a_w * a_h
+
+        return out   
