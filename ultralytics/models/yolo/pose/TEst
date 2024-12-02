@@ -1,0 +1,1 @@
+python path/to/yolov8 detect --source path/to/test/images --weights path/to/trained/weights --save-json
