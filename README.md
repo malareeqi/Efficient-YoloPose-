@@ -253,6 +253,8 @@ This repository is actively being improved, with continuous updates and optimiza
     journal={XXXX.XXXX},
     year={2024}
 }
-
+```
+## <div align="center">Citation</div>
+If you use this model in your research or projects, please cite the following:
 
 
