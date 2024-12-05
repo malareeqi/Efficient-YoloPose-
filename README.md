@@ -80,7 +80,7 @@ To use Efficient YoloPose, clone this repository to your local machine:
 ```bash
 git clone https://github.com/malareeqi/Efficient-YoloPose.git
 cd Efficient-YoloPose
-
+```
 
 ## <div align="center">Documentation</div>
 
