@@ -245,13 +245,11 @@ This repository is actively being improved, with continuous updates and optimiza
 ## <div align="center">License</div>
  This project is licensed under the MIT License - see the LICENSE file for details.
 
-## <div align="center">Citation</div>
-If you use this model in your research or projects, please cite the following:
 
 ```python
 @article{EfficientYoloPose,
     title={Resource-Aware Strategies for Real-Time Multi-Person Pose Estimation},
-    author={Mohammed A. Esmail1, Jinlei Wang1,*,Yihao Wang1, Li Sun1, Guoliang Zhu2, 3, and Guohe Zhang1,*},
+    author={Mohammed A. Esmail, Jinlei Wang,*,Yihao Wang, Li Sun, Guoliang Zhu, and Guohe Zhang*}
     journal={XXXX.XXXX},
     year={2024}
 }
