@@ -235,12 +235,10 @@ We love your input! YOLOv5 and YOLOv8 would not be possible without help from ou
 <a href="https://github.com/ultralytics/yolov5/graphs/contributors">
 <img width="100%" src="https://github.com/ultralytics/assets/raw/main/im/image-contributors.png"></a>
 
-## <div align="center">License</div>
+## <div align="center">Note</div>
 
-Ultralytics offers two licensing options to accommodate diverse use cases:
+This repository is actively being improved, with continuous updates and optimizations underway. Check back for the latest improvements and updates to the model's performance and capabilities.
 
-- **AGPL-3.0 License**: This [OSI-approved](https://opensource.org/licenses/) open-source license is ideal for students and enthusiasts, promoting open collaboration and knowledge sharing. See the [LICENSE](https://github.com/ultralytics/ultralytics/blob/main/LICENSE) file for more details.
-- **Enterprise License**: Designed for commercial use, this license permits seamless integration of Ultralytics software and AI models into commercial goods and services, bypassing the open-source requirements of AGPL-3.0. If your scenario involves embedding our solutions into a commercial offering, reach out through [Ultralytics Licensing](https://ultralytics.com/license).
 
 ## <div align="center">Contact</div>
 
@@ -249,7 +247,6 @@ For Ultralytics bug reports and feature requests please visit [GitHub Issues](ht
 <br>
 <div align="center">
  ## Note:
-This repository is actively being improved, with continuous updates and optimizations underway. Check back for the latest improvements and updates to the model's performance and capabilities.
 
 </div>
 "ultralytics-main"
