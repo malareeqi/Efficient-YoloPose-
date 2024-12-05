@@ -24,7 +24,9 @@ Superior performance: Reduces inference time, computational complexity, and para
 
 ## <div align="left"> Key Features</div> 
 <div align="justify">
-- **Improved Inference Time**: The proposed model reduces the inference time from **1.1 ms** to **0.9 ms**.
+- Improved Inference Time**: The proposed model reduces the inference time from **1.1 ms** to **0.9 ms**.
+  </div>  
+  <div align="justify">
 - **Reduced Computational Complexity**: The computational complexity decreases from **9.2 GFlops** to **4.8 GFlops**.
 - **Lower Parameter Count**: The parameter count is reduced from **3.3 million** to **1.3 million**.
 - **Accuracy**: The model achieves an **average precision (AP) score of 78.8** on the COCO dataset, outperforming other models in both efficiency and accuracy.
