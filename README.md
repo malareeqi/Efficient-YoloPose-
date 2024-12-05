@@ -23,8 +23,7 @@ Superior performance: Reduces inference time, computational complexity, and para
 
 
 <img width="100%" src="https://github.co![Weixin Image_20241205175712](https://github.com/user-attachments/assets/f908b7e0-768d-4a4f-a219-9e8d7257ce1b"></a>
-![Weixin Image_20241205175638](https://github.co![Weixin Image_20241205175712](https://github.com/user-attachments/assets/f908b7e0-768d-4a4f-a219-9e8d7257ce1b)
-m/user-attachments/assets/45434eb1-96df-4d96-a239-9fbcf0a5e12e)
+
 
 <div align="center">
   <a href="https://github.com/ultralytics" style="text-decoration:none;">
