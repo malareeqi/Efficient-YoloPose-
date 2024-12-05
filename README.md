@@ -1,15 +1,11 @@
 <div align="center">
   <p>
-    <a href="https://ultralytics.com/yolov8" target="_blank">
+    <a >
        <img width="100%" src="https://github.com/user-attachments/assets/bfb95dfe-466e-4cd6-b7f3-3c5c755f999b"> </a>
-    
-   
+      Efficient YoloPose 
   </p>
-
 <br>
-
-<div>
-  
+ 
     </div>
   <br>
 <div align="justify">
