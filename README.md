@@ -19,9 +19,7 @@ Advanced attention mechanism: Integrates Squeeze Excitation (SE) attention for i
 Superior performance: Reduces inference time, computational complexity, and parameter count compared to traditional models like YOLOv8-Pose.
 </div>  
 
-We hope that the resources here will help you get the most out of YOLOv8. Please browse the YOLOv8 <a href="https://docs.ultralytics.com/">Docs</a> for details, raise an issue on <a href="https://github.com/ultralytics/ultralytics/issues/new/choose">GitHub</a> for support, and join our <a href="https://ultralytics.com/discord">Discord</a> community for questions and discussions!
 
-To request an Enterprise License please complete the form at [Ultralytics Licensing](https://ultralytics.com/license).
 
 <img width="100%" src="https://raw.githubusercontent.com/ultralytics/assets/main/yolov8/yolo-comparison-plots.png"></a>
 
