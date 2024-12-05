@@ -5,9 +5,8 @@
             
   </p>
 <br>
-<div align="left">   Efficient YoloPose  </div>  
- <br>
- 
+## <div align="center">Efficient YoloPose</div>
+
  
 <div align="justify">
 Efficient YoloPose is a deep learning-based architecture designed to balance computational efficiency and accuracy for real-time multi-person pose estimation. This repository contains the implementation of Efficient YoloPose, which improves upon YOLOv8-Pose by incorporating advanced lightweight techniques, reducing computational demands while maintaining high performance, particularly for resource-constrained devices.
@@ -244,9 +243,4 @@ This repository is actively being improved, with continuous updates and optimiza
 
 For Ultralytics bug reports and feature requests please visit [GitHub Issues](https://github.com/ultralytics/ultralytics/issues), and join our [Discord](https://ultralytics.com/discord) community for questions and discussions!
 
-<br>
-<div align="center">
- ## Note:
 
-</div>
-"ultralytics-main"
