@@ -78,7 +78,7 @@ The model was evaluated on the following datasets:
 To use Efficient YoloPose, clone this repository to your local machine:
 
 ```bash
-git clone https://github.com/malareeqi/Efficient-YoloPose1.git
+git clone https://github.com/malareeqi/Efficient-YoloPose.git
 cd Efficient-YoloPose
 ```
 Install the required dependencies:
