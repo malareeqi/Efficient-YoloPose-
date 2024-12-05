@@ -85,8 +85,10 @@ Install the required dependencies:
 ```bash
 pip install -r requirements.txt
 ```
-
-
+Usage
+```bash
+yolo pose predict model=Efficient YoloPose.pt
+```
 ## <div align="center">Note</div>
 
 This repository is actively being improved, with continuous updates and optimizations underway. Check back for the latest improvements and updates to the model's performance and capabilities.
