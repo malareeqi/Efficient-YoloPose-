@@ -14,7 +14,7 @@
 Efficient YoloPose is a deep learning-based architecture designed to balance computational efficiency and accuracy for real-time multi-person pose estimation. This repository contains the implementation of Efficient YoloPose, which improves upon YOLOv8-Pose by incorporating advanced lightweight techniques, reducing computational demands while maintaining high performance, particularly for resource-constrained devices.
 </div>  
 
-## <div align="center"> Overview</div> 
+## <div align="left"> Overview</div> 
 <div align="justify">
 Human pose estimation (HPE) is crucial for various real-time applications, but achieving high accuracy with low computational overhead is a challenge, especially on resource-constrained devices. Efficient YoloPose addresses this challenge by optimizing YOLOv8-Pose with lightweight components to achieve both efficiency and accuracy.
 Efficient design: Utilizes Depthwise Convolution, Ghost Convolution, and C3Ghost to reduce model size and complexity.
@@ -22,7 +22,14 @@ Advanced attention mechanism: Integrates Squeeze Excitation (SE) attention for i
 Superior performance: Reduces inference time, computational complexity, and parameter count compared to traditional models like YOLOv8-Pose.
 </div>  
 
-
+## <div align="left"> Key Features</div> 
+<div align="justify">
+- **Improved Inference Time**: The proposed model reduces the inference time from **1.1 ms** to **0.9 ms**.
+- **Reduced Computational Complexity**: The computational complexity decreases from **9.2 GFlops** to **4.8 GFlops**.
+- **Lower Parameter Count**: The parameter count is reduced from **3.3 million** to **1.3 million**.
+- **Accuracy**: The model achieves an **average precision (AP) score of 78.8** on the COCO dataset, outperforming other models in both efficiency and accuracy.
+- **Lightweight Design**: Optimized for resource-constrained devices while maintaining high performance.
+</div>  
 
 <img width="100%" src="https://github.co![Weixin Image_20241205175712](https://github.com/user-attachments/assets/f908b7e0-768d-4a4f-a219-9e8d7257ce1b"></a>
 ![Weixin Image_20241205175638](https://github.com/user-attachments/assets/cfde1263-597a-4ddd-b228-332fa89f2d54)
