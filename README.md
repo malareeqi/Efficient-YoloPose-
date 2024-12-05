@@ -243,6 +243,11 @@ This repository is actively being improved, with continuous updates and optimiza
 
 ## <div align="center">Note</div>
 
-For Ultralytics bug reports and feature requests please visit [GitHub Issues](https://github.com/ultralytics/ultralytics/issues), and join our [Discord](https://ultralytics.com/discord) community for questions and discussions!
+@article{EfficientYoloPose,
+    title={Efficient YoloPose: Real-Time Human Pose Estimation on Resource-Constrained Devices},
+    author={Mohammed A. Esmail, Guohe Zhang, Jinlei Wang},
+    journal={arXiv:XXXX.XXXX},
+    year={2024}
+}
 
 
