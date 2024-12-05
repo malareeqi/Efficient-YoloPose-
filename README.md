@@ -246,7 +246,7 @@ If you use this model in your research or projects, please cite the following:
 
 ```python
 @article{EfficientYoloPose,
-    title={Efficient YoloPose: Real-Time Human Pose Estimation on Resource-Constrained Devices},
+    title={Resource-Aware Strategies for Real-Time Multi-Person Pose Estimation},
     author={Mohammed A. Esmail1, Jinlei Wang1,*,Yihao Wang1, Li Sun1, Guoliang Zhu2, 3, and Guohe Zhang1,*},
     journal={XXXX.XXXX},
     year={2024}
