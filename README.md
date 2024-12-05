@@ -242,6 +242,9 @@ We love your input! YOLOv5 and YOLOv8 would not be possible without help from ou
 This repository is actively being improved, with continuous updates and optimizations underway. Check back for the latest improvements and updates to the model's performance and capabilities.
 
 
+## <div align="center">License</div>
+ This project is licensed under the MIT License - see the LICENSE file for details.
+
 ## <div align="center">Citation</div>
 If you use this model in your research or projects, please cite the following:
 
@@ -253,7 +256,5 @@ If you use this model in your research or projects, please cite the following:
     year={2024}
 }
 
-## <div align="center">License</div>
- This project is licensed under the MIT License - see the LICENSE file for details.
 
 
