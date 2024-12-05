@@ -44,6 +44,23 @@ Superior performance: Reduces inference time, computational complexity, and para
 
 ![Weixin Image_20241205175712](https://github.com/user-attachments/assets/ed3357a5-5cc6-4e96-8b1a-81e26fb1bc58)
 
+## <div align="left"> Performance Comparison</div> 
+  <div align="justify">
+When compared to YOLOv8-Pose, Efficient YoloPose:
+. </div>  
+ <div align="justify">
+- Reduces inference time
+ </div>   
+  <div align="justify">
+- Lowers computational complexity
+</div>   
+  <div align="justify">
+- Reduces parameter count
+  </div>    
+  <div align="justify">
+-  Maintains competitive accuracy
+</div>  
+
 <div align="center">
   <a href="https://github.com/ultralytics" style="text-decoration:none;">
     <img src="https://github.com/ultralytics/assets/raw/main/social/logo-social-github.png" width="2%" alt="" /></a>
