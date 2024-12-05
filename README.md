@@ -244,6 +244,7 @@ This repository is actively being improved, with continuous updates and optimiza
 ## <div align="center">Citation</div>
 If you use this model in your research or projects, please cite the following:
 
+```python
 @article{EfficientYoloPose,
     title={Efficient YoloPose: Real-Time Human Pose Estimation on Resource-Constrained Devices},
     author={Mohammed A. Esmail, Guohe Zhang, Jinlei Wang},
