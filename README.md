@@ -5,6 +5,7 @@
             
   </p>
 <br>
+</div>
 ## <div align="center">Efficient YoloPose</div>
 
  
