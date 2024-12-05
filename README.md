@@ -2,8 +2,7 @@
   <p>
     <a >
        <img width="100%" src="https://github.com/user-attachments/assets/bfb95dfe-466e-4cd6-b7f3-3c5c755f999b"> </a>
-             ![Weixin Image_20241205175638](https://github.com/user-attachments/assets/e384e679-07de-4dde-a991-59be9a29b79c)
-
+            
   </p>
 <br>
 <div align="left">   Efficient YoloPose  </div>  
@@ -24,6 +23,7 @@ Superior performance: Reduces inference time, computational complexity, and para
 
 
 <img width="100%" src="https://github.co![Weixin Image_20241205175712](https://github.com/user-attachments/assets/f908b7e0-768d-4a4f-a219-9e8d7257ce1b"></a>
+![Weixin Image_20241205175638](https://github.com/user-attachments/assets/cfde1263-597a-4ddd-b228-332fa89f2d54)
 
 
 <div align="center">
