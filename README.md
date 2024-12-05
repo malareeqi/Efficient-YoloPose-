@@ -87,7 +87,7 @@ pip install -r requirements.txt
 ```
 Usage
 ```bash
-yolo pose predict model=Efficient YoloPose.pt
+yolo pose predict model=Efficient_YoloPose1.pt
 ```
 ## <div align="center">Note</div>
 
