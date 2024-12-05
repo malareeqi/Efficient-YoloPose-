@@ -1,9 +1,9 @@
 <div align="center">
   <p>
     <a href="https://ultralytics.com/yolov8" target="_blank">
-       <img width="100%" src="https://github.com/user-attachments/assets/bfb95dfe-466e-4cd6-b7f3-3c5c755f999b">
+       <img width="100%" src="https://github.com/user-attachments/assets/bfb95dfe-466e-4cd6-b7f3-3c5c755f999b"> </a>
     
-      </a>
+   
   </p>
 
 [English](README.md) | [简体中文](README.zh-CN.md)
