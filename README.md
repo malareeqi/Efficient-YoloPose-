@@ -4,7 +4,7 @@
        <img width="100%" src="https://github.com/user-attachments/assets/bfb95dfe-466e-4cd6-b7f3-3c5c755f999b"> </a>
      
     
-     <a Efficient YoloPose >
+      Efficient YoloPose
   </p>
 <br>
  <br>
