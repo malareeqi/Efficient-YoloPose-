@@ -61,6 +61,18 @@ When compared to YOLOv8-Pose, Efficient YoloPose:
 -  Maintains competitive accuracy
 </div>  
 
+## <div align="left"> Datasets Used</div> 
+  <div align="justify">
+The model was evaluated on the following datasets:
+. </div>  
+ <div align="justify">
+- COCO: Common Objects in Context, a large-scale object detection dataset.
+ </div>   
+  <div align="justify">
+- OCHuman: A dataset specifically designed for human pose estimation.
+</div>   
+
+
 <div align="center">
   <a href="https://github.com/ultralytics" style="text-decoration:none;">
     <img src="https://github.com/ultralytics/assets/raw/main/social/logo-social-github.png" width="2%" alt="" /></a>
