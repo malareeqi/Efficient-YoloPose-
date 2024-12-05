@@ -2,7 +2,8 @@
   <p>
     <a >
        <img width="100%" src="https://github.com/user-attachments/assets/bfb95dfe-466e-4cd6-b7f3-3c5c755f999b"> </a>
-             
+             ![Weixin Image_20241205175638](https://github.com/user-attachments/assets/e384e679-07de-4dde-a991-59be9a29b79c)
+
   </p>
 <br>
 <div align="left">   Efficient YoloPose  </div>  
