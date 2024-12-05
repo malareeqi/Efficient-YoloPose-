@@ -240,7 +240,7 @@ We love your input! YOLOv5 and YOLOv8 would not be possible without help from ou
 This repository is actively being improved, with continuous updates and optimizations underway. Check back for the latest improvements and updates to the model's performance and capabilities.
 
 
-## <div align="center">Contact</div>
+## <div align="center">Note</div>
 
 For Ultralytics bug reports and feature requests please visit [GitHub Issues](https://github.com/ultralytics/ultralytics/issues), and join our [Discord](https://ultralytics.com/discord) community for questions and discussions!
 
