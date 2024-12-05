@@ -23,14 +23,20 @@ Superior performance: Reduces inference time, computational complexity, and para
 </div>  
 
 ## <div align="left"> Key Features</div> 
-<div align="justify">
-- Improved Inference Time**: The proposed model reduces the inference time from **1.1 ms** to **0.9 ms**.
-  </div>  
   <div align="justify">
-- **Reduced Computational Complexity**: The computational complexity decreases from **9.2 GFlops** to **4.8 GFlops**.
-- **Lower Parameter Count**: The parameter count is reduced from **3.3 million** to **1.3 million**.
-- **Accuracy**: The model achieves an **average precision (AP) score of 78.8** on the COCO dataset, outperforming other models in both efficiency and accuracy.
-- **Lightweight Design**: Optimized for resource-constrained devices while maintaining high performance.
+- Improved Inference Time: The proposed model reduces the inference time from 1.1 ms to 0.9 ms.
+ </div>  
+ <div align="justify">
+- Reduced Computational Complexity: The computational complexity decreases from 9.2 GFlops to 4.8 GFlops.
+ </div>   
+  <div align="justify">
+- Lower Parameter Count: The parameter count is reduced from 3.3 million to 1.3 million.
+</div>   
+  <div align="justify">
+- Accuracy: The model achieves an average precision (AP) score of 78.8 on the COCO dataset, outperforming other models in both efficiency and accuracy.
+  </div>    
+  <div align="justify">
+- Lightweight Design: Optimized for resource-constrained devices while maintaining high performance.
 </div>  
 
 <img width="100%" src="https://github.co![Weixin Image_20241205175712](https://github.com/user-attachments/assets/f908b7e0-768d-4a4f-a219-9e8d7257ce1b"></a>
