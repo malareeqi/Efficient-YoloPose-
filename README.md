@@ -81,6 +81,10 @@ To use Efficient YoloPose, clone this repository to your local machine:
 git clone https://github.com/malareeqi/Efficient-YoloPose.git
 cd Efficient-YoloPose
 ```
+Install the required dependencies:
+```bash
+pip install -r requirements.txt
+```
 
 ## <div align="center">Documentation</div>
 
