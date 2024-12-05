@@ -253,4 +253,7 @@ If you use this model in your research or projects, please cite the following:
     year={2024}
 }
 
+## <div align="center">License</div>
+ This project is licensed under the MIT License - see the LICENSE file for details.
+
 
