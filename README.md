@@ -86,6 +86,14 @@ Install the required dependencies:
 ```bash
 pip install -r requirements.txt
 ```
+To train this model, simply execute the following Python script:
+bash
+```bash
+%cd /Efficient-YoloPose/ultralytics/models/yolo/pose/
+python train.py
+```
+Make sure you write the correct path before running the model.
+
 
 
 ## <div align="center">Note</div>
