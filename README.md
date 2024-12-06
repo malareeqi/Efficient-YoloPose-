@@ -92,7 +92,7 @@ bash
 %cd /Efficient-YoloPose/ultralytics/models/yolo/pose/
 python train.py
 ```
-Make sure you write the correct path before running the model.
+Make sure you have writting the correct path before running the model.
 
 
 
