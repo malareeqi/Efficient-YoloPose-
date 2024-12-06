@@ -86,6 +86,8 @@ Install the required dependencies:
 ```bash
 pip install -r requirements.txt
 ```
+## Usage
+
 To train this model, simply execute the following Python script:
 bash
 ```bash
