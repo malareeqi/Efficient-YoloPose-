@@ -82,11 +82,12 @@ git clone https://github.com/malareeqi/Efficient-YoloPose.git
 cd Efficient-YoloPose
 ```
 Install the required dependencies:
+
 ```bash
 pip install -r requirements.txt
 ```
 
-```
+
 ## <div align="center">Note</div>
 
 This repository is actively being improved, with continuous updates and optimizations underway. Check back for the latest improvements and updates to the model's performance and capabilities.
